@@ -14,8 +14,10 @@ This project meant to create a reporting tool that prints out reports of three q
 
 ## Report ##
 1. `cd` into newsdata folder
-2. Add views by typing `psql -d news -f create_views.sql*` in the VM.
+2. Add views by typing `psql -d news -f newsdata_view.sql*` in the VM.
 3. Run `python newsdata.py` to generate report texts.
 
 ## Reference ##
-[chints87/newsdata](https://github.com/chints87/newsdat)
+- [chints87/newsdata](https://github.com/chints87/newsdat)
+- [kaka2634/newsdata](https://github.com/kaka2634/newsdata/blob/master/newsdata.py)
+- [PostgreSQL 10.1 Documentation](https://www.postgresql.org/docs/10/static/index.html)

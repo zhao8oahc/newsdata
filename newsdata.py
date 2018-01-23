@@ -1,51 +1,43 @@
 #!/usr/bin/env python
 
-import psycopg2,bleach
+import psycopg2
 import sys
 
-def main():
-    """
+"""Connect to database
+"""
+db = psycopg2.connect(database="news")
+c = db.cursor()
 
-    """
-    db = psycopg2.connect(database="news")
-    c = db.cursor()
+with open('results.txt', 'w') as f:
+    f.truncate()
+    """Gnerate the report of popular authors,
+       popular articles and on which
+       day errors occur more than 1%,
+       and write the results into the text file
+   """
 
-    popular_articles(db,c)
-    popular_authors(db,c)
-    #error_days(db,c)
-
-    db.close()
-
-
-def popular_articles(db,c):
-    """
-    """
+    # List the top 3 popular articles
     c.execute("SELECT * FROM poparticles")
     results = c.fetchall()
-    print("\nWhat are the most popular three articles of all time?\n")
+    f.write("\n\n1.What are the most popular three articles of all time?\n")
 
     for title, views in results:
-        print('\"{}\" - {} views'.format(title, views))
-    
+        f.write('\"{}\" - {} views \n'.format(title, views))
 
-def popular_authors(db,c):
-    """
-    """
+    # List the top 4 popular authors
     c.execute("SELECT * FROM popauthors")
     results = c.fetchall()
-    print("\nWho are the most popular article authors of all time?\n")
+    f.write("\n\n2. Who are the most popular article authors of all time?\n")
     for title, views in results:
-        print('{} - {} views'.format(title, views))
+        f.write('{} - {} views \n'.format(title, views))
 
-def error_days(db,c):
-    """
-    """
-    c.execute("")
+    # List the date that errors occur more than 1%
+    c.execute("SELECT * FROM errorsrate")
     results = c.fetchall()
-    print("\nOn which days did more than 1% of requests lead to errors\n")
-    
+    f.write("\n\n3. On which days did more than 1% of requests "
+            "lead to errors?\n")
+    for dates, rate in results:
+        f.write('{0:%B %d, %Y} - {1:.1f}% errors \n'.format(dates, rate))
 
-
-
-if __name__ == "__main__":
-    main()
+f.close()
+db.close()

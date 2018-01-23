@@ -20,7 +20,20 @@ CREATE VIEW popauthors AS
     LIMIT 4;
 
 CREATE VIEW errors AS
-    SELECT 
+    SELECT date(log."time") AS dates, log.status, count(*) AS hits
+    FROM log
+    WHERE log.status = '404 NOT FOUND'
+    GROUP BY dates,log.status;
 
+CREATE VIEW oks AS
+    SELECT date(log."time") AS dates, log.status, count(*) AS hits
+    FROM log
+    WHERE log.status = '200 OK'
+    GROUP BY dates,log.status;
 
-    WHERE status = '404 NOT FOUND'
+CREATE VIEW errorsrate AS
+    SELECT errors.dates,
+    ROUND(errors.hits * 100.0 / (oks.hits + errors.hits),1) AS rate
+    FROM errors, oks
+    WHERE errors.dates = oks.dates
+    AND ROUND(errors.hits * 100.0 / (oks.hits + errors.hits),1) > 1.0;
