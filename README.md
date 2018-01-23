@@ -12,10 +12,10 @@ This project meant to create a reporting tool that prints out reports of three q
 4. Enter the `vagrant` directory in the terminal and run the command `vagrant up` to install. After `vagrant up` is finished running, run `vagrant ssh` to log into the VM.
 5. `cd` into the `/vagrant` directory and use the command `psql -d news -f newsdata.sql` to load the data.
 
-##Report##
+## Report ##
 1. `cd` into newsdata folder
 2. Add views by typing `psql -d news -f create_views.sql*` in the VM.
 3. Run `python newsdata.py` to generate report texts.
 
-##Reference##
+## Reference ##
 [chints87/newsdata](https://github.com/chints87/newsdat)
