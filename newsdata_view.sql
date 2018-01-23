@@ -20,4 +20,7 @@ CREATE VIEW popauthors AS
     LIMIT 4;
 
 CREATE VIEW errors AS
-    SELECT
+    SELECT 
+
+
+    WHERE status = '404 NOT FOUND'
